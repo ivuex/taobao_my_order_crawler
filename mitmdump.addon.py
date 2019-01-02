@@ -1,25 +1,22 @@
 # -*- coding:utf-8 -*-
 
-from mitmproxy import ctx
 import re
-import time
 import json
 from db import mongo
 import pprint
+# import time
+# from mitmproxy import ctx
 
 CORE_COLLECTION_NAME = 'core_my_history_order'
 ORIGIN_COLLECTION_NAME = 'origin_my_history_order'
 
-class OutputInbackend:
+class PipeInbackend:
     def __init__(self):
         pass
 
     def response(self, flow):
-        # if re.search(r'baidu', flow.request.url):
-        # https: // buyertrade.taobao.com / trade / itemlist / asyncBought.htm?action = itemlist / BoughtQueryAction & event_submit_do_query = 1 & _input_charset = utf8
-        # if re.search(r'buyertrade\.taobao\.com.+asyncBought.htm\?action', flow.request.url):
+        # 如果正则匹配上了flow.request.url就处理响应体，也可以用mitmproxy提供的flowfilter.parse和flowfilter.match
         if re.search(r'asyncBought.htm\?action', flow.request.url):
-            # ctx.log.info(flow.response.text)
             json_str = flow.response.text
             match = re.search(r'&pageNum=(\d+)&', json_str)
             try:
@@ -80,6 +77,6 @@ class OutputInbackend:
 
 
 addons = [
-    OutputInbackend()
+    PipeInbackend()
 ]
 

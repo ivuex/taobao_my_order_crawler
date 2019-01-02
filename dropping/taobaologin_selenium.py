@@ -124,5 +124,4 @@ def Login_by_qcode_and_output_cookie():
 	driver.quit()
 
 if __name__ == '__main__':
-	#Login_by_Account()
 	Login_by_qcode_and_output_cookie()
